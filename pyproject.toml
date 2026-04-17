@@ -1,0 +1,13 @@
+[project]
+name = "leetcode-archive"
+version = "0.1.0"
+description = "Alex's LeetCode journey"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = []
+
+[tool.uv]
+package = false

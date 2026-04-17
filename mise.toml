@@ -1,0 +1,6 @@
+# Pin runtimes for local development: https://mise.jdx.dev/ then run `mise install`.
+# Align Java major and Quarto version with Dockerfile build args when you bump them.
+
+[tools]
+python = "3.12.9"
+java = "21"

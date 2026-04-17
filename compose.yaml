@@ -1,0 +1,11 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /workspaces/leetcode_archive
+    volumes:
+      - .:/workspaces/leetcode_archive
+    stdin_open: true
+    tty: true
+    command: sleep infinity

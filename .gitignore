@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# uv
+.python-version.bak
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Quarto
+/.quarto/
+**/_site/
+**/.quarto/
+
+# Jupyter
+.ipynb_checkpoints/
