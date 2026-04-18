@@ -1,0 +1,58 @@
+# Merge Sorted Array
+
+
+Solved on 2026-04-16.
+You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in `nums1` and `nums2` respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array `nums1`. To accommodate this, `nums1` has a length of `m + n`, where the first `m` elements denote the elements that should be merged, and the last `n` elements are set to 0 and should be ignored. `nums2` has a length of `n`.
+
+## Solution
+
+```{python}
+    class Solution:
+        def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+            """
+            Do not return anything, modify nums1 in-place instead.
+            """
+
+            # Edge cases: either or both are empty
+            if n == 0:
+                return
+            if m == 0:
+                nums1[:] = nums2
+                return
+
+            i_1 = m - 1
+            i_2 = n - 1
+            for i in range(m+n-1,  -1 , -1):
+                if nums1[i_1] >= nums2[i_2]:
+                    nums1[i] = nums1[i_1]
+                    i_1 -= 1
+                    if i_1 < 0:
+                        nums1[:i_2+1] = nums2[:i_2+1]
+                        return
+                else:
+                    nums1[i] = nums2[i_2]
+                    i_2 -= 1
+                    if i_2 < 0:
+                        return
+            return
+```
+
+## Explanation
+
+The solution above implements a two-pointer approach to merge the two arrays. It has an $O(m+n)$ time complexity since it iterates through both arrays once at most. It has an $O(1)$ space complexity since it only uses a few extra variables for keeping track of the indices. Aside from the edge cases, the solution proceeds as follows:
+
+Moving backwards from the end of both arrays, we compare the last elements of the each array one by one. Since it's already provided that each array are sorted in non-decreasing order separately, we only need to compare the last "effective elements" one by one. The rest of the effective elements are known to be smaller than the ones currently being compared. The correctness of the algorithm is straightforward to verify, given that we are comparing the current largest elements of the two arrays one by one, and placing the larger one at the end of the merged array. When one of the arrays are exhausted (i.e. `i_1 < 0` or `i_2 < 0`), we can simply copy the remaining elements of the non-exhausted array to the beginning of the merged array. 
+
+Lastly, there's an additional correctness check that needs to be verified: "Does the algorithm ever overwrite any leftover effective elements in `nums1`?". The following proof shows that this is not the case:
+
+### Proof of correctness:
+
+We want to show that the algorithm never overwrites any leftover effective elements in `nums1`. The algorithm proceeds at most $m+n$ iterations. Let $1 \leq j \leq m+n$ denote the iteration index. Let $m_j$ and $n_j$ denote the number of elements in `nums1` and `nums2` that have been moved out of place and are now at the end of the merged (and corrected sorted) `nums1` array at iteration $j$ for `nums1` and `nums2`, respectively. Let "effective elements" refer to the elements left in `nums1` and `nums2` that have not been compared and placed correctly yet. Then $m-m_j$ and $n - n_j$ represents the number of effective elements left in `nums1` and `nums2`, respectively, at iteration $j$. 
+
+Now suppose that at iteration $j$, the algorithm overwrites an effective element in `nums1`. First of all, this can only happen if some of the effective elements in `nums1` have been moved and placed at the end of the merged array at some iteration. This is because if this never occurs, then that means the entirety of `nums2` is simply written to the end of `nums1`, i.e. $nums2[i] \geq nums1[j] \forall i \in [1, n], \ j \in [0, m]$. In this case, the algorithm would never need to overwrite any effective elements in `nums1`. Therefore, assume that $m_j > 0$ at some iteration $j$. 
+
+With the assumption that the algorithm correctly compares and places the larger elements of `nums1` and `nums2` at the correct location, after the j'th iteration when the overwrite occurs, the number of effective elements in `nums1` is $m - m_j$. Next, the number of elements that have been written at the end of `nums1` at the end of this iteration is $m_j + n_j$. Now, an overwrite can only occur if $(m - m_j) + (m_j + n_j) > m + n$. That is, the number of effective elements in `nums1` ($m - m_j$) plus the number of elements that have been written at the end of `nums1` by the end of iteration ($m_j + n_j$) is strictly greater than the total length of `nums1` ($m+n$). However, the number of elements written from `nums2` ($n_j$) can only be at most $n$. Therefore, we have: $(m - m_j) + (m_j + n_j) = m + n_j > m + n \Rightarrow n_j > n$, which is a contradiction. Therefore, the algorithm never overwrites any effective elements in `nums1`.
