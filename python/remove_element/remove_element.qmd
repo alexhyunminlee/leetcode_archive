@@ -1,0 +1,53 @@
+# Remove Element
+
+Solved on 2026-05-02.
+
+Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in `nums` in-place. The order of the elements may be changed. Then return the number of elements in `nums` which are not equal to `val`.
+
+Consider the number of elements in `nums` which are not equal to `val` be `k`, to get accepted, you need to do the following things:
+
+Change the array `nums` such that the first `k` elements of `nums` contain the elements which are not equal to `val`. The remaining elements of `nums` are not important as well as the size of `nums`.
+Return `k`.
+
+## Solution
+
+```{python}
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        # Edge cases
+        if len(nums) == 0:
+            return 0
+        
+        # Initialize counters and index pointers
+        k = 0
+        i = 0
+        j = -1
+        
+        tmp = 0
+        for _ in range(len(nums)):
+            if nums[j] == val:
+                k += 1
+                j -= 1
+            else:
+                tmp = nums[j]
+                nums[j] = nums[i]
+                nums[i] = tmp
+                i += 1
+        return (len(nums) +  - k)
+
+```
+
+## Explanation
+
+First, considering the edge cases, if the array is empty, we return 0. This is trivial. 
+
+We take a two-pointer approach in solving this problem. We process each element of the array once, as dictated by the for loop ranging up to the length of the array. As the problem statement requires the output array to contain the elements not equal to `val` in the first half of the array, we can instead work to move all the `val` elements to the end of the array. To do so, we initialize the first index pointer at the end of the array. If it is equal to `val`, then the `val` element is already where we want it to be -- at the latter half of the array. We can then decrement the second index pointer. However, if the element is not eqaul `val`, then we need to move it toward the first half of the array. We do this using the second pointer to swap the element with the first pointer, and then increment the first pointer. This process continues until we have processed all the elements of the array exactly once. 
+
+The correctness of this algorithm can be verified with a simple induction argument. Taking the base case to be iteration 1 (before the first iteration starts), it's evident that the following conditions will hold right after the first iteration:
+
+1. `nums[0:i]` contains the elements not equal to `val`
+2. `nums[j:]` contains the elements equal to `val`
+3. `k` is either 0 or 1, depending on whether the first element we investigated was equal to `val` or not.
+4. The two pointers are pointing to the correct indices in the array (i.e. the rest of the elements in `nums` that have not been processed yet, one at the beginning and one at the end).
+
+Now, let the inductive hypothesis be that the conditions above hold for some iteration $n$ and it's easy to show that the conditions will also hold for iteration $n+1$ (details omitted). This solution has an $O(n)$ time complexity (we iterate through the array once), and an $O(1)$ space complexity (we only use a few extra variables for keeping track of the indices).
