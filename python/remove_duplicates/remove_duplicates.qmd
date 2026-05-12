@@ -1,0 +1,36 @@
+# Remove Duplicates
+
+Solved on 2026-05-11.
+
+Given an integer array `nums` sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+
+Consider the number of unique elements in `nums` to be `k`. After removing duplicates, return the number of unique elements `k`.
+
+The first `k` elements of `nums` should contain the unique numbers in sorted order. The remaining elements beyond index `k - 1` can be ignored.
+
+## Solution
+
+```{python}
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        i = 1
+        k = 1
+        current = nums[0]
+
+        for j in range(1, len(nums)):
+            if current < nums[j]:
+                k += 1
+                current = nums[j]
+                nums[i] = current
+                i += 1
+        return k
+
+```
+
+## Explanation
+
+This solution uses a two-pointer approach. Since the length of `nums` is at least 1 (i.e. it's non empty), we know that there is at leat one unique element in `nums`, which is the first element in `nums`. We therefore initialize `k` to 1, `current` (which keeps track of the current unique element) to the first element in `nums`. Next, iterating throught the second element of `nums` and beyond, we make note of each time the current unique element changes (i.e. `current < nums[j]`). Whenever this happens, we increment `k` by 1, set `current` to the new unique element, and place the new unique element at the index `i`, which is used to keep track of the next position in `nums` to place the next unique element. This process continues until we have processed all the elements of `nums` exactly once.
+
+The correctness of this algorithm is trivial to verify, and can be done via induction.
+
+This solution has $O(n)$ time complexity and $O(1)$ space complexity, where $n$ is the length of `nums`.
