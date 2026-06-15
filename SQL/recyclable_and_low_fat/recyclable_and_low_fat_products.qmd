@@ -1,5 +1,7 @@
 Recyclable and Low Fat Products
 
+https://leetcode.com/problems/recyclable-and-low-fat-products/description/?envType=study-plan-v2&envId=top-sql-50
+
 Solved on 2026-06-15.
 
 Given a table `Products` with the following columns:
