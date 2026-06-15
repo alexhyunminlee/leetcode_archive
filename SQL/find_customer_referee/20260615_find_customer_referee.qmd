@@ -1,0 +1,35 @@
+Find Customer Referee
+
+https://leetcode.com/problems/find-customer-referee/description/?envType=study-plan-v2&envId=top-sql-50
+
+Solved on 2026-06-15.
+
+Given a table `Customer` with the following columns:
+
+- `id`: the ID of the customer
+- `name`: the name of the customer
+- `referee_id`: the ID of the customer's referee
+
+Find the names of the customer that are either:
+
+referred by any customer with id != 2.
+not referred by any customer.
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+SELECT
+    name
+FROM
+    Customer
+WHERE
+    referee_id <> 2
+    OR referee_id IS NULL
+ORDER BY
+    id;
+```
+
+## Explanation
+
+From the `Customer` table, we filter for rows that are either referred by any customer with id != 2 (i.e. `referee_id <> 2`) or not referred by any customer (i.e. `referee_id IS NULL`). We then order the result by `id` (unnecessary, but nice to have) and return the `name` column.
