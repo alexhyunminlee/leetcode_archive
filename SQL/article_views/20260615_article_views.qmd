@@ -1,0 +1,33 @@
+Article Views I
+
+https://leetcode.com/problems/article-views-i/description/?envType=study-plan-v2&envId=top-sql-50
+
+Solved on 2026-06-15.
+
+Given a table `Views` with the following columns:
+
+- `article_id`: the ID of the article
+- `author_id`: the ID of the author
+- `viewer_id`: the ID of the viewer
+- `view_date`: the date of the view
+
+Write a solution to find all the authors that viewed at least one of their own articles.
+
+Return the result table sorted by id in ascending order.
+
+## Solution
+
+```{sql}
+SELECT DISTINCT
+    author_id AS id
+FROM
+    Views
+WHERE
+    author_id = viewer_id
+ORDER BY
+    id ASC;
+```
+
+## Explanation
+
+From the `Views` table, we first filter for the rows where the `author_id` is equal to the `viewer_id`, which indicates the views where the author viewed their own article. We then select the distinct `author_id`'s, since there may be duplicate views by the same author. We rename the `author_id` column to `id` to match the expected output. Lastly, we order the result by `id` in ascending order, as required by the problem statement.
