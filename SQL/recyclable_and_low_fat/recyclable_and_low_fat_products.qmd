@@ -1,0 +1,29 @@
+Recyclable and Low Fat Products
+
+Solved on 2026-06-15.
+
+Given a table `Products` with the following columns:
+
+- `product_id`: the ID of the product
+- `low_fats`: a boolean indicating if the product is low fat
+- `recyclable`: a boolean indicating if the product is recyclable
+
+Write a solution to find the ids of products that are both low fat and recyclable. Return the result table in any order.
+
+## Solution
+
+```{sql}
+SELECT
+    product_id
+FROM
+    Products
+WHERE
+    low_fats = 'Y'
+    AND recyclable = 'Y'
+ORDER BY
+    product_id;
+```
+
+## Explanation
+
+The solution is very straightforward. From the `Products` table, we filter for rows that are low fat (`low_fats = 'Y'`) and recyclable (`recyclable = 'Y'`). We then order the result by `product_id` (unnecessary, but nice to have) and return the `product_id` column.
