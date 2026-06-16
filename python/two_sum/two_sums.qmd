@@ -1,0 +1,55 @@
+Two Sum
+
+https://leetcode.com/problems/two-sum/description/
+
+Solved on 2026-06-15.
+
+Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+## Solution 1: Sorting
+
+```{python}
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        if len(nums) == 2:
+            return [0, 1]
+        
+        sorted_nums = sorted(enumerate(nums), key=lambda x:x[1])
+
+        low = 0
+        high = len(nums) - 1
+        while (sum := sorted_nums[low][1] + sorted_nums[high][1]) != target:
+            if sum > target:
+                high -= 1
+            else:
+                low += 1
+        return [sorted_nums[low][0], sorted_nums[high][0]]
+```
+
+## Explanation
+
+This solution uses a two-pointer approach to find the two numbers that add up to the target. It first sorts the array and then uses two pointers to find the two numbers. The sorted array requires a space complexity of $O(n)$ and time complexity of $O(n \log n)$ to sort. Once the array is sorted, we can use two pointer approach to find the two numbers in $O(n)$ time. Since the answer is guaranteed to exist and be unique, the two pointer approach is guaranteed to find the answer in $O(n)$ time.
+
+## Solution 2: Hash Map
+
+```{python}
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        if len(nums) == 2:
+            return [0, 1]
+        
+        map = {}
+        for i, cur in enumerate(nums):
+            if (diff := target - cur) in map.keys():
+                return [i, map[diff]]
+            else:
+                map[cur] = i
+```
+
+## Explanation
+
+This solution uses a hash map approach. For each element in the array, we calculate the difference between the target and the current element. If the difference already exists in the hash map, then we have found the two numbers that add up to the target. At this point, we simply return the indices of the two numbers. If the difference does not exist in the hash map, then we add the current element and its index to the hash map. This process continues until we have processed all the elements of the array exactly once. It takes $O(n)$ time to process each element of the array, and $O(1)$ time to check if the difference exists in the hash map. Therefore, the total time complexity is $O(n)$. We also need to allocate a hash map of size $O(n)$ to store the elements and their indices. Therefore, the total space complexity is $O(n)$.
