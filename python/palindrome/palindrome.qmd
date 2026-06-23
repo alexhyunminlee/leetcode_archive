@@ -1,0 +1,48 @@
+Palindrome Number
+
+https://leetcode.com/problems/palindrome-number/description/
+
+Solved on 2026-06-22.
+
+Given an integer `x`, return `true` if `x` is a palindrome, and `false` otherwise.
+
+Additional objective: do not convert the integer to a string.
+
+## Solution 1
+
+```{python}
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        reverse = 0
+        copy = x
+        while x != 0:
+            remainder = x % 10
+            reverse = reverse * 10 + remainder
+            x = x // 10
+        return reverse == copy
+
+```
+
+## Explanation
+
+This solution reverses the original integer completely, then compares the reversed integer with the original integer. The correctness of reversing the integer is straightforward to verifty. The time complexity of this solution is $O(n)$, where $n$ is the number of digits in the integer. The space complexity of this solution is $O(1)$ since we are only using a few extra integer vairables for keeping track of the reversed integer and the original integer.
+
+## Solution 2
+
+```{python}
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0 or (x % 10 == 0 and x != 0):
+            return False
+        reverse = 0
+        while x > reverse:
+            reverse = reverse * 10 + x % 10
+            x = x // 10
+        return reverse == x or (reverse // 10) == x
+```
+
+## Explanation
+
+This solution reverses the original integer up to the middle half of the integer, then compares the reversed integer with the other half of the integer. If the original integer has an odd number of digits, we ignore the middle digit. The correctness of this algorithm is again straightforward to verify, and follows a similar "correctness of reversing digits" argument as in the previous solution, with the additional "trick" that we only need to compare the first and second half of the integer. The time complexity is $O(n/2)$ where $n$ is the number of digits in the integer. Of course, $O(n/2)$ is on the same order as $O(n)$, but it's still a slight improvement over the previous solution (taking half the time). The space complexity is still $O(1)$ since we are only using a few extra integer vairables for keeping track of the reversed integer and the original integer.
