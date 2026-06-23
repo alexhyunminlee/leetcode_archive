@@ -1,0 +1,38 @@
+Customers Who Never Order
+
+https://leetcode.com/problems/customers-who-never-order/description/
+
+Solved on 2026-06-22.
+
+Given a table `Customers` with the following columns:
+
+- `id`: the ID of the customer
+- `name`: the name of the customer
+
+And a table `Orders` with the following columns:
+
+- `id`: the ID of the order
+- `customerId`: the ID of the customer who ordered the order
+
+Write a solution to find all customers who never order anything.
+
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+SELECT
+    c.name as Customers
+FROM
+    Customers as c
+LEFT JOIN
+    Orders as o ON o.customerId = c.id
+WHERE
+    o.customerId IS NULL
+ORDER BY
+    c.name;
+```
+
+## Explanation
+
+From the `Customers` table, we left join with the `Orders` table on the `customerId` column. We then filter for rows where the `customerId` is NULL, which means the customer has never ordered anything. We then order the result by `name` (unnecessary, but nice to have) and return the `name` column as `Customers`.
