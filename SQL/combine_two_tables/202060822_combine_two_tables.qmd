@@ -1,0 +1,26 @@
+Combine Two Tables
+
+https://leetcode.com/problems/combine-two-tables/
+
+Solved on 2026-08-22.
+
+Write a solution to report the first name, last name, city, and state of each person in the Person table. If the address of a personId is not present in the Address table, report null instead.
+
+## Solution
+
+```{sql}
+
+-- Write your PostgreSQL query statement below
+SELECT
+    firstName, lastName, city, "state"
+FROM
+    Person
+LEFT JOIN
+    Address USING(personId)
+;
+
+```
+
+## Explanation
+
+It's clear that we have to combine the two tables, since the problem asks for the first name, last name, city, and state of each person, where first/last name come from the `Person` table and city/state come from the `Address` table. It's also clear that the `PersonId` column is the linking column between the two tables, so we can use it to join the tables. We want to use a `LEFT JOIN` since the problem asks for null values if the address of a personId is not present in the Address table. We then select the first name, last name, city, and state columns from the joined table and return the result.
