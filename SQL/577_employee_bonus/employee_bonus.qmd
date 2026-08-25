@@ -1,0 +1,30 @@
+Employee Bonus
+
+https://leetcode.com/problems/employee-bonus/
+
+Solved on 2026-08-25.
+
+Write a solution to report the name and bonus amount of each employee who satisfies either of the following:
+
+* The employee has a bonus less than 1000.
+* The employee did not get any bonus.
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+SELECT
+    e.name,
+    b.bonus
+FROM
+    Employee AS e
+    LEFT JOIN Bonus AS b USING(empID)
+WHERE
+    b.bonus < 1000
+    OR b.bonus IS NULL
+;
+```
+
+## Explanation
+
+The relationship between the `Employee` and `Bonus` tables is clear: every row in Bonus is linked at most one row in Employee. Where there is no bonus, the bonus column will be NULL after the Left Join. This allows us to search for employees who have no bonus (checking for NULL bonus column) or have a bonus less than 1000.
