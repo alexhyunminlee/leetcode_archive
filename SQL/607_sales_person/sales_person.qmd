@@ -1,0 +1,33 @@
+Sales Person
+
+https://leetcode.com/problems/sales-person/description/
+
+Solved on 2026-08-26.
+
+Write a solution to find the names of all the salespersons who did not have any orders related to the company with the name "RED".
+
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+SELECT
+    name
+FROM
+    SalesPerson AS s
+WHERE
+    NOT EXISTS (SELECT 1
+    FROM
+        Orders AS o
+        INNER JOIN Company AS c USING(com_id)
+    WHERE
+        o.sales_id = s.sales_id
+        AND c.name = 'RED')
+;
+```
+
+## Explanation
+
+We essentially want to go through each sales person, check if they made any 'RED' company orders. If they did, exclude them from the result. If they didn't, include them in the result. 
+
+The solution uses a correlated subquery to check for each sales person's inclusion criteria. The outer query iterates through each sales person, and the inner query checks for any existence of that sales person making a 'RED' company order. The inner query combines the Orders table with the Company table, which allows us to filter for 'RED' company orders. From this resulting table, we filter for each sales person's orders. Of those orders, we check for any 'RED' company orders. If such orders exist, the subquery returns a positive number of results, which in turn excludes that sales person from the outer query's result via the NOT EXISTS clause. If no such orders exist, the subquery returns an empty result, which in turn includes that sales person in the outer query's result via the NOT EXISTS clause -- as desired.
