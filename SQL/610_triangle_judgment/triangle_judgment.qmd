@@ -1,0 +1,30 @@
+Triangle Judgment
+
+https://leetcode.com/problems/triangle-judgement/
+
+Solved on 2026-08-27
+
+Report for every three line segments whether they can form a triangle.
+
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+-- Write your PostgreSQL query statement below
+SELECT
+    *,
+    CASE
+        WHEN 2*GREATEST(x,y,z) < x + y + z THEN 'Yes'
+        ELSE 'No'
+    END AS Triangle
+FROM
+    Triangle
+;
+```
+
+## Explanation
+
+Although not explicitly stated, we assume that all sides are positive, and we only need to check the triangle inequality theorem. In a triangle, the sum of the lengths of any two sides must be greater than the length of the remaining side. We only need to check the most extreme case, which that the sum of the two shortest sides is greater than the length of the longest side. Equivalently, that: max(sides) < min(sides) + median(sides) => max(sides) - min(sides) < sum(sides) - (max(sides) + min(sides)) => 2*max(sides) < sum(sides).
+
+Using this, we select all the existing columns, and a `CASE` statement to check if the condition is met, returning `Yes` or `No` accordingly.
