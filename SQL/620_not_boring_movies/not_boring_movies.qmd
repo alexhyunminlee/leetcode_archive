@@ -1,0 +1,27 @@
+Not Boring Movies
+
+https://leetcode.com/problems/not-boring-movies/description/
+
+Solved on 2026-08-29
+
+Write a solution to report the movies with an odd-numbered ID and a description that is not "boring".
+
+Return the result table ordered by rating in descending order.
+
+## Solution
+
+```{sql}
+-- Write your PostgreSQL query statement below
+SELECT *
+FROM Cinema
+WHERE
+    id % 2 != 0
+    AND description != 'boring'
+ORDER BY
+    rating DESC
+;
+```
+
+## Explanation
+
+The first condition in the WHERE clause selects odd id movies, the second condition filters out boring movies, and the ORDER BY clause sorts the results by rating in descending order. 
