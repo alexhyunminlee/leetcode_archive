@@ -1,0 +1,43 @@
+Sales Analysis III
+
+https://leetcode.com/problems/sales-analysis-iii/description/
+
+Solved on 2026-09-28
+
+Write a solution to report the products that were only sold in the first quarter of 2019. That is, between 2019-01-01 and 2019-03-31 inclusive.
+
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+# Write your MySQL query statement below
+WITH sold_first_quarter AS (
+    SELECT DISTINCT
+        product_id,
+        product_name
+    FROM
+        Product p
+        INNER JOIN Sales s USING(product_id)
+    WHERE
+        s.sale_date BETWEEN '2019-01-01' AND '2019-03-31'
+),
+sold_outside_first_quarter AS (
+    SELECT DISTINCT
+        product_id,
+        product_name
+    FROM
+        Product p
+        INNER JOIN Sales s USING(product_id)
+    WHERE
+        s.sale_date NOT BETWEEN '2019-01-01' AND '2019-03-31'
+)
+
+SELECT * FROM sold_first_quarter
+EXCEPT
+SELECT * FROM sold_outside_first_quarter;
+```
+
+## Explanation
+
+A solution using CTE, just as practice. The first CTE finds the products that were sold in the first quarter of 2019, which is found using the BETWEEN. The second CTE finds the products that were sold outside the first quarter of 2019, which is found using the NOT BETWEEN. We then use the EXCEPT operator to find the products that were ONLY sold in the first quarter of 2019.
