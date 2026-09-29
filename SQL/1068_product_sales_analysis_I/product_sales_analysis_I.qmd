@@ -1,0 +1,26 @@
+Product Sales Analysis I
+
+https://leetcode.com/problems/product-sales-analysis-i/description/
+
+Solved on 2026-09-28
+
+Write a solution to report the product_name, year, and price for each sale_id in the Sales table.
+
+Return the resulting table in any order.
+
+## Solution
+
+```{sql}
+-- Write your PostgreSQL query statement below
+SELECT
+    product_name,
+    year,
+    price
+FROM
+    Product
+    INNER JOIN Sales USING(product_id);
+```
+
+## Explanation
+
+The solution is straightforward. For each row in the Sales table, we print out the product_name, year, and price from the Product table that the sale corresponds to. 
