@@ -1,0 +1,29 @@
+Project Employees I
+
+https://leetcode.com/problems/project-employees-i/description/
+
+Solved on 2026-09-28
+
+Write an SQL query that reports the average experience years of all the employees for each project, rounded to 2 digits.
+
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+-- Write your PostgreSQL query statement below
+SELECT
+    p.project_id,
+    ROUND(AVG(e.experience_years), 2) AS average_years
+FROM
+    Project AS p
+    INNER JOIN Employee As e USING(employee_id)
+GROUP BY
+    project_id
+ORDER BY
+    project_id;
+```
+
+## Explanation
+
+We want to find every employee associated with each project, which is done by joining the project and employee tables on the employee_id column. Then, for each project, we want to find the average experience years of the employees associated with that project, which can be done by grouping by the project_id and AVG'ing the experience_years of the employees associated with that project. We round this to 2 digits and we have our solution.
