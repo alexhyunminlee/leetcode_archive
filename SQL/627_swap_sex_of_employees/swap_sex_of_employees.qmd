@@ -1,0 +1,20 @@
+Swap Sex of Employees
+
+https://leetcode.com/problems/swap-sex-of-employees/
+
+Solved on 2026-10-03
+
+## Solution
+
+```sql
+UPDATE Salary
+SET sex = CASE
+    WHEN sex = 'm' THEN 'f'
+    ELSE 'm'
+END
+;
+```
+
+## Explanation
+
+The solution is straightforward. We write an UPDATE statement that changes sex to f if it is currently m. Otherwise (which covers all cases due to the enum type described), we change f to m.
