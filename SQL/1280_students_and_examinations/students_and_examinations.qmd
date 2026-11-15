@@ -1,0 +1,39 @@
+Students and Examinations
+
+https://leetcode.com/problems/students-and-examinations/description/
+
+Solved 2026-11-15
+
+Write a solution to find the number of times each student attended each exam.
+
+Return the result table ordered by student_id and subject_name.
+
+## Solution
+
+```{sql}
+SELECT
+    student_id,
+    s.student_name,
+    subject_name,
+    COALESCE(e.attended_exams, 0) AS attended_exams
+FROM
+    Students AS s
+CROSS JOIN
+    Subjects AS sub
+LEFT OUTER JOIN
+    (SELECT student_id, subject_name, COUNT(*) AS attended_exams
+        FROM Examinations
+        GROUP BY
+            student_id,
+            subject_name
+    ) AS e USING(student_id, subject_name)
+ORDER BY
+    student_id,
+    subject_name;
+```
+
+## Explanation
+
+Looking at the expected outputs, we note that we have to report on all students and subject names, even if the student did not attend the exam for that subject. The `CROSS JOIN` between `Students` and `Subjects` prepares this for us. Inside the `LEFT OUTER JOIN`, we extract out the `COUNT()` of the `(student_id, subject_name)` from the `Examinations` table. If the student has taken an exam for a subject, this returns a row with a positive value for the `attended_exams` column. If the student has not taken an exam for the subject, then this does not return that row. As a result of the `LEFT OUTER JOIN`, this "missing" row gets a `NULL` value for the all the `e` columns. The `COALESCE()` function detects this `NULL` value and returns a `0` for the `attended_exams` column.
+
+This method is more efficient than joining first, then grouping for two reasons. First, it performs the group by only for the `Examinations` table, which is smaller than what you'd get from joining all three tables first. Second, the `GROUP BY` compresses the `Examinations` table into a single row for each `(student_id, subject_name)` pair. The subsequent `LEFT OUTER JOIN` then attaches this value to each row of the `Students` and `Subjects` tables. Compressing the rows first, then performing the join reduces the number of rows that are compared in the join. 
