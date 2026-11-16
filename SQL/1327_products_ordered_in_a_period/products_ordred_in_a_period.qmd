@@ -1,0 +1,35 @@
+List the Products Ordred in a Period
+
+https://leetcode.com/problems/list-the-products-ordered-in-a-period/description/
+
+Solved 2026/11/15
+
+Write a solution to get the names of products that have at least 100 units ordered in February 2020 and their amount.
+
+Return the result table in any order.
+
+## Solution
+
+```{sql}
+-- Write your PostgreSQL query statement below
+SELECT
+    p.product_name,
+    SUM(o.unit) AS unit
+FROM
+    Products AS p
+INNER JOIN 
+    Orders AS o USING(product_id)
+WHERE
+    o.order_date >= '2020-02-01'::date AND
+    o.order_date < '2020-03-01'::date
+GROUP BY
+    p.product_id,
+    p.product_name
+HAVING
+    SUM(o.unit) >= 100
+;
+```
+
+## Explanation
+
+Selecting from the `Products` table and inner joining with the `Orders` table using `product_id` column is straightforward. From there, we filter for the desired date range. Using the two ranges is good for indexing. Then, you group by the `product_id` and `product_name` columns (via the `GROUP BY` clause). You only really need to group by the `product_id` since that's the primary key, but we want to be able to select the `product_name` column. Finally, we use the `HAVING` clause to filter for products with at least 100 units ordered and return that sum as the `unit` column.
